@@ -1,0 +1,159 @@
+@mixin flex-content( $justify: center, $align: center, $direction: row, ) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+:host {
+  width: 100%;
+  height: 100%;
+}
+.carousel-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  &-arrow-btn {
+    @include flex-content();
+    width: 3em;
+    height: 3em;
+  }
+  &-pre-btn {
+    position: absolute;
+    top: 47%;
+    left: 0;
+    color: white;
+    cursor: pointer;
+  }
+  &-next-btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    color: white;
+    cursor: pointer;
+  }
+  &-img {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 2px 2px #292929;
+    border-radius: 4px;
+  }
+  &-content {
+    position: absolute;
+    width: calc(100% - 6em);
+    height: calc(100% - 8em);
+    top: 3em;
+    left: 3em;
+    right: 3em;
+  }
+  &-header {
+    position: absolute;
+    top: 0;
+    height: 3em;
+    @include flex-content(flex-end);
+    color: white;
+    width: calc(100% - 1.4em);
+    padding: 0 .7em;
+    &-expand {
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+  }
+  &-thumbnail {
+    width: 100%;
+    height: 5em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    @include flex-content();
+    &-dot {
+      width: 1.3em;
+      height: 1.3em;
+      border-radius: 50%;
+      background: white;
+      margin: .4em;
+      @include flex-content();
+      cursor: pointer;
+      span {
+        width: 100%;
+        height: 100%;
+        @include flex-content();
+        font-size: .7em;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        @include flex-content();
+        font-size: .7em;
+        border-radius: 50%;
+      }
+    }
+    &-selected-dot {
+      width: 1.6em;
+      height: 1.6em;
+      box-shadow: 0 0 1.5px 1.5px #8a8a8a;
+    }
+    &-preview {
+      width: 3em;
+      height: 3em;
+      border-radius: 4px;
+      background: white;
+      margin: .4em;
+      cursor: pointer;
+    }
+    &-selected-preview {
+      width: 3.5em;
+      height: 3.5em;
+      border-radius: 4px;
+      box-shadow: 0 0 1.5px 1.5px #afafaf;
+    }
+    &-full-size-preview {
+      width: 7em;
+      height: 7em;
+    }
+    &-full-size-preview-selected {
+      width: 10.5em;
+      height: 7.5em;
+    }
+  }
+}
+.carousel-page-overview {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999999999999;
+  left: 0;
+  bottom: 0;
+  background: #000000d9;
+  &-header {
+    height: 4em;
+    @include flex-content(flex-end);
+    width: calc(100% - 2em);
+    padding: 0 1em;
+    &-action {
+      color: white;
+      cursor: pointer;
+    }
+  }
+  &-content {
+    height: calc(100% - 12em);
+    @include flex-content();
+    img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 4px;
+      box-shadow: 0 0 2px 2px #909090;
+    }
+  }
+  &-footer {
+    height: 8em;
+    width: 100%;
+    @include flex-content();
+  }
+}
+
+::ng-deep {
+  .mat-tab-body-wrapper {
+    height: 100%;
+  }
+}

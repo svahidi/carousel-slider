@@ -1,0 +1,100 @@
+<div class="carousel-page"
+     [style.width]="width"
+     [style.height]="height">
+  <ng-container *ngIf="showArrowAction" [ngTemplateOutlet]="preArrow"></ng-container>
+  <img class="carousel-page-img"
+       [style.height]="!thumbnailOverlap && thumbnailType !== 'none' ? 'calc(100% - 5em)' : '100%'"
+       [src]="imagesList[currentSlide].src">
+  <ng-container *ngIf="showHeader" [ngTemplateOutlet]="header"></ng-container>
+  <ng-container *ngIf="showContent" [ngTemplateOutlet]="content"></ng-container>
+  <ng-container *ngIf="thumbnailType !== 'none'" [ngTemplateOutlet]="thumbnail"></ng-container>
+  <ng-container *ngIf="showArrowAction" [ngTemplateOutlet]="nextArrow"></ng-container>
+</div>
+
+
+<ng-template #header>
+  <div class="carousel-page-header">
+    <ng-container *ngIf="!headerTemplate && showFullSizeBtn">
+      <span class="material-icons carousel-page-header-expand" (click)="showFullSizeImage()">
+        open_in_full
+      </span>
+    </ng-container>
+    <ng-container *ngIf="headerTemplate"
+                  [ngTemplateOutlet]="headerTemplate"
+                  [ngTemplateOutletContext]="{item: imagesList[currentSlide]}">
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #content>
+  <div class="carousel-page-content">
+    <ng-container *ngIf="contentTemplate"
+                  [ngTemplateOutlet]="contentTemplate"
+                  [ngTemplateOutletContext]="{item: imagesList[currentSlide]}">
+    </ng-container>
+  </div>
+</ng-template>
+
+<ng-template #nextArrow>
+  <div class="carousel-page-next-btn carousel-page-arrow-btn"
+       [style.top]="!thumbnailOverlap && thumbnailType !== 'none' ? 'calc(50% - 3.5em)' : '47%'"
+       [style.position]="showFullSizePreview ? 'unset' : 'absolute'"
+       (click)="nextSlide()">
+    <span class="material-icons">
+      navigate_next
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #preArrow>
+  <div class="carousel-page-pre-btn carousel-page-arrow-btn"
+       [style.top]="!thumbnailOverlap && thumbnailType !== 'none' ? 'calc(50% - 3.5em)' : '47%'"
+       [style.position]="showFullSizePreview ? 'unset' : 'absolute'"
+       (click)="preSlide()">
+    <span class="material-icons">
+      navigate_before
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #thumbnail>
+  <div class="carousel-page-thumbnail">
+    <ng-container *ngIf="thumbnailType === 'circle'" [ngTemplateOutlet]="thumbnailDotType"></ng-container>
+    <ng-container *ngIf="thumbnailType === 'square'" [ngTemplateOutlet]="thumbnailPreviewType"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #thumbnailPreviewType>
+  <img class="carousel-page-thumbnail-preview"
+       [class.carousel-page-thumbnail-selected-preview]="img.mainIndexId === currentSlide"
+       [class.carousel-page-thumbnail-full-size-preview]="showFullSizePreview"
+       [class.carousel-page-thumbnail-full-size-preview-selected]="showFullSizePreview && img.mainIndexId === this.currentSlide"
+       *ngFor="let img of thumbnailList; let id = index" [src]="img.src" (click)="showThisImage(img.mainIndexId)">
+</ng-template>
+
+<ng-template #thumbnailDotType>
+  <div class="carousel-page-thumbnail-dot"
+       [class.carousel-page-thumbnail-selected-dot]="dot.mainIndexId === currentSlide"
+       *ngFor="let dot of thumbnailList; let id = index" (click)="showThisImage(dot.mainIndexId)">
+    <span *ngIf="thumbnailDotText">{{dot.mainIndexId + 1}}</span>
+    <img *ngIf="!thumbnailDotText" [src]="dot.src">
+  </div>
+</ng-template>
+
+<ng-container *ngIf="showFullSizePreview">
+  <div class="carousel-page-overview">
+    <div class="carousel-page-overview-header">
+      <span class="material-icons carousel-page-overview-header-action" (click)="closeOverview()">
+        close
+      </span>
+    </div>
+    <div class="carousel-page-overview-content">
+      <img [src]="imagesList[currentSlide].src">
+    </div>
+    <div class="carousel-page-overview-footer">
+      <ng-container *ngIf="showArrowAction" [ngTemplateOutlet]="preArrow"></ng-container>
+      <ng-container [ngTemplateOutlet]="thumbnailPreviewType"></ng-container>
+      <ng-container *ngIf="showArrowAction" [ngTemplateOutlet]="nextArrow"></ng-container>
+    </div>
+  </div>
+</ng-container>
